@@ -16,14 +16,19 @@
 **How I verified:** Ran `pytest tests/test_watchlist.py -v` — test passed.
 
 ## Comment 4 — Default visibility
-**My position:**
-**Reasoning:**
-**Tradeoff acknowledged:**
+**My position:** Keep `public=True` as the default.
+
+**Reasoning:** CineLog is a community film tracking app built around sharing — reviews, lists, and recommendations only have value if others can see them. Defaulting watchlists to public aligns with that purpose and means users get the social features immediately without having to opt in.
+
+**Tradeoff acknowledged:** The risk is that a user might not realize their watchlist is visible. This is acceptable as long as the app clearly indicates when content is public and gives users a straightforward way to change their privacy settings. The `public` field already exists on `WatchlistEntry`, so the toggle is there — it just needs to be surfaced in the UI.
 
 ## Comment 5 — Sort order
-**My position:**
-**Reasoning:**
-**Engagement with reviewer's point:**
+## Comment 5 — Sort order
+**My position:** Change the sort order to `date_added` descending.
+
+**Reasoning:** A watchlist is a chronological queue of films a user wants to watch — sorting by date added shows what they saved most recently, which is what they're most likely looking for. Alphabetical order is more useful for browsing a static library, not a dynamic list users are actively adding to.
+
+**Engagement with reviewer's point:** I agree with the maintainer that most users want to see recent additions first. Switching to `date_added` descending also makes `get_watchlist()` consistent with `get_collection()`, which already sorts newest first — keeping the two services behaving the same way makes the codebase more predictable.
 
 ## Comment 6 — Rebase
 **What conflicted:**
