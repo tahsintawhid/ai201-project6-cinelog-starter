@@ -31,9 +31,11 @@
 **Engagement with reviewer's point:** I agree with the maintainer that most users want to see recent additions first. Switching to `date_added` descending also makes `get_watchlist()` consistent with `get_collection()`, which already sorts newest first — keeping the two services behaving the same way makes the codebase more predictable.
 
 ## Comment 6 — Rebase
-**What conflicted:**
-**How I resolved it:**
-**How I verified no conflict remains:**
+**What conflicted:** The `.gitignore` file conflicted because both `main` and `feature/watchlist` had added one. The `WatchlistEntry` model was also lost during the rebase because `main`'s refactored `models.py` didn't include it.
+
+**How I resolved it:** Merged the `.gitignore` conflict by keeping both versions combined, including `.pytest_cache/` from main. Re-added `WatchlistEntry` to `models.py` with `film_id` updated from `db.Integer` to `db.String(36)` to match the UUID refactor.
+
+**How I verified no conflict remains:** Ran `git log --oneline` to confirm no merge commits in the history. Ran `pytest tests/ -v` — all tests passed.
 
 ## PR Description
 <!-- Written at the end — feature overview, design decisions, manual testing steps -->
