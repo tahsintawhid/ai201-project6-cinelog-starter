@@ -47,6 +47,10 @@ conventional commit format before finalizing.
 
 ## Git Log Screenshot
 ```
+d43e9fc feat: add visibility toggle parameter to add_to_watchlist endpoint
+2fe2ca8 feat: add remove_from_watchlist with NotInWatchlistError and tests
+7bfb1dc test: add test for duplicate film in add_to_watchlist
+5b143fb docs: finalize pr-response.md with PR description and AI usage
 71d8589 fix: add WatchlistEntry model with UUID film_id after rebase
 7ea32af fix: change watchlist sort order to date_added descending
 d5126e0 test: add test for nonexistent film in add_to_watchlist
@@ -55,6 +59,15 @@ d5126e0 test: add test for nonexistent film in add_to_watchlist
 d9ce387 fix: update film retrieval method to use db.session.get in collection and watchlist services
 74a7aef feat: add watchlist model, service, and endpoints
 ```
+
+## Stretch 1 — remove_from_watchlist()
+**What I did:** Added `remove_from_watchlist(user_id, film_id)` to `watchlist_service.py` following the same pattern as `remove_from_collection()`. Added a `NotInWatchlistError` exception that is raised when the film isn't on the watchlist. Wrote two tests: one confirming the entry is deleted, one confirming `NotInWatchlistError` is raised for a film not on the watchlist.
+
+## Stretch 2 — Second test
+**What I did:** Added `test_add_to_watchlist_duplicate_raises` to `tests/test_watchlist.py`. This test adds the same film twice and asserts that `AlreadyInWatchlistError` is raised on the second call, confirming the deduplication logic works correctly. I chose this case because it directly tests the logic I added in Comment 2 and mirrors `test_add_to_collection_duplicate_raises` in `test_collection.py`.
+
+## Stretch 3 — Visibility toggle
+**What I did:** Added an optional `public` parameter to `add_to_watchlist()` in `watchlist_service.py` (defaults to `True`) and updated the `POST /watchlist/<user_id>/add` endpoint in `routes/watchlist/watchlist.py` to read `public` from the request body. Callers can now pass `"public": false` to create a private watchlist entry explicitly.
 
 ## PR Description
 
